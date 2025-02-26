@@ -1,7 +1,7 @@
 import Header from '~/components/Layout/components/Header';
 import Sidebar from './Sidebar';
 import styles from './DefaultLayout.module.scss';
-import classNames from 'classnames';
+import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles)
 

@@ -1,19 +1,21 @@
 // import PropTypes from 'prop-types';
-import { Wrapper as PopperWrapper } from '~/components/Popper';
-import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
+import classNames from 'classnames/bind';
 import { FaCheckCircle } from 'react-icons/fa';
+import { Wrapper as PopperWrapper } from '~/components/Popper';
 
-import styles from './SuggestedAccounts.module.scss';
 import AccountPreview from './AccountPreview';
+import styles from './SuggestedAccounts.module.scss';
+import PropTypes from 'prop-types';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
-function AccountItem() {
+function AccountItem({ data = [] }) {
     const renderPreview = (attrs) => (
         <div tabIndex="-1" {...attrs}>
             <PopperWrapper>
-                <AccountPreview />
+                <AccountPreview data={data} />
             </PopperWrapper>
         </div>
     );
@@ -21,17 +23,13 @@ function AccountItem() {
         <div>
             <Tippy interactive placement="bottom" delay={[800, 0]} offset={[-20, 0]} render={renderPreview}>
                 <div className={cx('account-item')}>
-                    <img
-                        className={cx('avatar')}
-                        src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/4ec4af123468a13832c03b2e5e60c754~tplv-tiktokx-cropcenter:720:720.jpeg?dr=14579&nonce=54125&refresh_token=124a6ac3c88c7112e6476660afb5c503&x-expires=1740834000&x-signature=b36%2B8M8KQYdHLZ8ZD3wZPVmjpKM%3D&idc=my&ps=13740610&shcp=81f88b70&shp=a5d48078&t=4d5b0474"
-                        alt=""
-                    />
+                    <Image className={cx('avatar')} src={data.avatar} alt={data.nickname} />
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
-                            <strong>nxhoangnxhoang</strong>
-                            <FaCheckCircle className={cx('check')} />
+                            <strong>{data.nickname}</strong>
+                            {data.tick && <FaCheckCircle className={cx('check')} />}
                         </p>
-                        <p className={cx('name')}>Nguyễn Xuân Hoàng</p>
+                        <p className={cx('name')}>{`${data.first_name} ${data.last_name}`}</p>
                     </div>
                 </div>
             </Tippy>
@@ -39,6 +37,8 @@ function AccountItem() {
     );
 }
 
-// AccountItem.propTypes = {};
+AccountItem.propTypes = {
+    data: PropTypes.array,
+};
 
 export default AccountItem;
